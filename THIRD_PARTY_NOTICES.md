@@ -21,3 +21,13 @@ are supplied as part of this module. Their editable sources remain maintained
 separately; the included runtime bundles are sufficient for module compilation.
 The module's GPL-2-or-later terms do not replace D3's ISC notice or the licenses
 of the R dependencies.
+
+
+## Native scientific libraries in macOS packages
+
+When a macOS R dependency links to GNU GSL libraries not supplied by jamovi,
+the build includes the required native libraries beside that dependency and
+relocates their loader paths before packaging. The GNU GPL version 3 text is
+retained as `GSL-COPYING` in that library directory. This does not replace
+the separate R-package license metadata. GNU GSL source is available from
+https://www.gnu.org/software/gsl/.

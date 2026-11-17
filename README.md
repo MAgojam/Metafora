@@ -11,9 +11,9 @@
 > The musical score represents code: its rigor, precision, and the beauty of a universal language. Reading and understanding the work of others sparks new ideas—the light bulb—which find room on an empty staff to become new music, new code. **Mz** is the author's personal signature on this journey: understanding, creating, and sharing, rather than merely copying.
 
 
-**Metafora 2.0.0** is a meta-analysis module for **jamovi**, using the **metafor** R package. The current Windows candidate bundles **metafor 5.3-4**. Its dependency source is pinned in DESCRIPTION for reproducible builds. The declared minimum jamovi version is **28.17.0**; this lower bound does not imply that an unmodified 28.17 desktop contains the upstream Svg fixes described below.
+**Metafora 2.0.0** is a meta-analysis module for **jamovi**, using the **metafor** R package. This version uses **metafor 5.3-4**. Its dependency source is pinned in DESCRIPTION for reproducible builds. The declared minimum jamovi version is **28.17.0**; this lower bound does not imply that an unmodified 28.17 desktop contains the upstream Svg fixes described below.
 
-Development validation uses Windows jamovi 28.17 and the local portable 28.17.2 with core fixes. Automated tests cover all six models. The maintainer has visually accepted the updated development features and the latest Model-tab layout and Results ordering. Linux has already passed the previously recorded development checks; that acceptance is retained. The latest layout, Results-order and documentation refinements do not change the statistical algorithms or platform-specific Linux code. Producing an updated Linux JMO is a packaging step, not a withdrawal of the existing Linux acceptance. macOS package preparation and validation remain separate.
+Development validation uses Windows jamovi 28.17 and the local portable 28.17.2 with core fixes. Automated tests cover all six models. The maintainer has visually accepted the updated development features and the latest Model-tab layout and Results ordering. Linux has already passed the previously recorded development checks; that acceptance is retained. The latest layout, Results-order and documentation refinements do not change the statistical algorithms or platform-specific Linux code. Producing an updated Linux JMO is a packaging step, not a withdrawal of the existing Linux acceptance. Platform-specific build and test details accompany the release assets; automated macOS backend checks do not replace desktop GUI acceptance.
 
 Designed as a **unified synthesis tool**, it provides a streamlined and statistically rigorous interface for researchers to aggregate data across six core models: correlations, dichotomous outcomes, pre-calculated effect sizes, mean differences, proportions, and Cronbach’s alpha.
 
@@ -63,7 +63,7 @@ Metafora was created to evolve the capabilities of meta-analysis within jamovi. 
 Special thanks to **W. Kyle Hamilton**, the author and creator of MAJOR, for his pioneering work in bringing meta-analysis to the jamovi platform. Metafora carries that legacy forward into a new architectural framework to meet the current needs of the research community.
 
 ## Installation & Resources
-Metafora 2.0.0 is undergoing local validation. Public distribution through the jamovi library or GitHub releases has not been completed.
+Source code is available in this repository. Use [GitHub Releases](https://github.com/MAgojam/Metafora/releases) for platform-specific packages when available, and consult each release’s validation notes. Availability in the jamovi module library is a separate distribution channel.
 
 To build from a clone, install R, a compatible jamovi application and `jmvtools`. From an R session whose working directory is the cloned module root, run:
 
@@ -161,7 +161,7 @@ Classic and Interactive Funnel plots share metafor's statistical meaning: a pool
 
 ## Source repository and development status
 
-This 2.0.0 source project is intended for the new `MAgojam/Metafora` repository, independently of the previous legacy project. Source availability does not mean that validated release packages exist for all four platforms. Platform packages and release acceptance will be documented separately.
+This 2.0.0 source project is maintained in `MAgojam/Metafora`, independently of the previous legacy project. Source availability does not mean that validated release packages exist for all four platforms. Platform packages and release acceptance will be documented separately.
 
 The Model tab places Heteroscedasticity test and Bootstrap samples before Heterogeneity comparison, Display model fit and Text reporting. Predictive probability is alongside it; its threshold field aligns with Bootstrap samples and its Direction title aligns with Display model fit. The Results sequence places the heteroscedasticity table after Subgroup Analysis and before Heterogeneity comparison and model fit.
 
@@ -170,3 +170,6 @@ For contributors, the order of entries in each analysis `.r.yaml` determines the
 ## License and third-party notices
 
 This module is distributed under the **GNU General Public License (v2 or later)**; see [COPYING](COPYING). The bundled D3 7.9.0 library uses the ISC license, retained in [inst/licenses/D3-LICENSE.txt](inst/licenses/D3-LICENSE.txt). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for bundled-component and R-dependency notices.
+
+
+The macOS build workflow in `.github/workflows/macos-jmo.yml` compiles natively for Intel and Apple Silicon with verified jamovi DMG images. It checks package resources, dataset copies, native-library architecture and portability, compiled-model tests and the six UI test scripts. Native dependency relocation occurs only in the disposable compiler cache before the compiler creates the final JMO.
