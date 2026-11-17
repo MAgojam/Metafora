@@ -1,0 +1,12 @@
+exportPattern("^[[:alpha:]]+")
+
+import(jmvcore)
+importFrom(jmvcore,.)
+importFrom(jmvcore,matchSet)
+importFrom(graphics,axis,lines,mtext,par,points,segments,text)
+importFrom(stats,fitted,IQR,median,pbinom,pchisq,pnorm,predict,qchisq,qnorm,residuals,rstandard,setNames,uniroot,weights)
+importFrom(utils,capture.output)
+import(metafor)
+import(poibin)
+import(puniform)
+import(TOSTER)

@@ -1,0 +1,13 @@
+^srcjs$
+^md$
+^tools$
+^build$
+^releases$
+^export$
+^data/.*[.]omv$
+^compile[.]r$
+^Metafora_.*[.]jmo$
+^Metafora_.*[.]tar[.]gz$
+^.*[.]log$
+^analysis-metafora[.]svg$
+^Logo_Metafora[.]svg$

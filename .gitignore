@@ -1,0 +1,24 @@
+# Documentazione e procedure operative esclusivamente locali
+/md/
+/man/
+/srcjs/
+/tools/
+/compile.r
+
+# Compilazioni, cache e distribuzioni: JMO solo negli asset Releases
+/build/
+/releases/
+/export/
+/Metafora_*.jmo
+/Metafora_*.tar.gz
+
+# Stato della sessione e file di lavoro
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*.log
+*.tmp
+*~
+.DS_Store
+Thumbs.db

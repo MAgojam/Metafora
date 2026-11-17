@@ -1,0 +1,129 @@
+---
+title: A Unified Synthesis Tool
+name: Metafora
+version: 2.0.0
+jms: '1.0'
+authors:
+  - Maurizio Agosti
+  - W. Kyle Hamilton
+  - Jonathon Love
+maintainer: Maurizio Agosti <magosti@gmail.com>
+date: '2026-11-17'
+type: R
+description: >-
+  This versatile module provides a streamlined interface for conducting
+  meta-analyses using the robust metafor R package engine by Wolfgang
+  Viechtbauer. It offers a unified framework to handle six core data types:
+  correlations, dichotomous outcomes, pre-calculated effect sizes, mean
+  differences, proportions, and Cronbach’s alpha. Whether you are aggregating
+  raw experimental data or standardized coefficients, Metafora ensures
+  statistical rigor across all research designs.
+analyses:
+  - title: Correlation Models
+    name: mzCorrelations
+    ns: Metafora
+    menuGroup: Metafora
+    menuSubgroup: Relationships
+    menuTitle: Correlation Models
+    category: analyses
+  - title: Reliability Generalization
+    name: mzAlphas
+    ns: Metafora
+    menuGroup: Metafora
+    menuSubgroup: Relationships
+    menuTitle: Reliability Generalization
+    category: analyses
+  - title: Dichotomous Models
+    name: mzDichotomous
+    ns: Metafora
+    menuGroup: Metafora
+    menuSubgroup: Comparative
+    menuTitle: Dichotomous Models
+    category: analyses
+  - title: Mean Difference Models
+    name: mzMeanDifferences
+    ns: Metafora
+    menuGroup: Metafora
+    menuSubgroup: Comparative
+    menuTitle: Mean Difference Models
+    category: analyses
+  - title: Proportion Models
+    name: mzProportions
+    ns: Metafora
+    menuGroup: Metafora
+    menuSubgroup: Summary
+    menuTitle: Proportion Models
+    category: analyses
+  - title: Generic Effect Sizes
+    name: mzEffectSizes
+    ns: Metafora
+    menuGroup: Metafora
+    menuSubgroup: Summary
+    menuTitle: Generic Effect Sizes
+    category: analyses
+usesNative: true
+minApp: 28.17.0
+datasets:
+  - name: Example_Dichotomous
+    path: Example_Dichotomous.omv
+    description: >-
+      Synthetic teaching data for Dichotomous Models: event and non-event counts
+      in two groups, subgroups, continuous and categorical moderators, and
+      illustrative risk-of-bias judgements.
+    tags:
+      - Meta-analysis
+      - Dichotomous
+      - Synthetic
+  - name: Example_Correlation
+    path: Example_Correlation.omv
+    description: >-
+      Synthetic teaching data for Correlation Models: Pearson correlations,
+      sample sizes, subgroups, and continuous and categorical moderators.
+    tags:
+      - Meta-analysis
+      - Correlation
+      - Synthetic
+  - name: Example_Alpha
+    path: Example_Alpha.omv
+    description: >-
+      Synthetic teaching data for Reliability Generalization: Cronbach's alpha,
+      number of items, sample sizes, subgroups, and continuous and categorical
+      moderators.
+    tags:
+      - Meta-analysis
+      - Reliability
+      - Synthetic
+  - name: Example_MeanDifference
+    path: Example_MeanDifference.omv
+    description: >-
+      Synthetic teaching data for Mean Difference Models: means, standard
+      deviations and sample sizes in two groups, subgroups, and continuous and
+      categorical moderators, and illustrative Risk of Bias domain and overall
+      ratings for the Interactive forest plot.
+    tags:
+      - Meta-analysis
+      - Mean difference
+      - Synthetic
+  - name: Example_Proportion
+    path: Example_Proportion.omv
+    description: >-
+      Synthetic teaching data for Proportion Models: event counts, total sample
+      sizes, subgroups, and continuous and categorical moderators.
+    tags:
+      - Meta-analysis
+      - Proportion
+      - Synthetic
+  - name: Example_EffectSizes
+    path: Example_EffectSizes.omv
+    description: >-
+      Synthetic teaching data for Generic Effect Sizes: standardized effects,
+      sampling variances, equivalent standard errors and 95% confidence limits
+      (CI_low, CI_high), subgroups, and continuous and categorical moderators,
+      and illustrative Risk of Bias domain and overall ratings.
+    tags:
+      - Meta-analysis
+      - Effect sizes
+      - Confidence intervals
+      - Synthetic
+
+...

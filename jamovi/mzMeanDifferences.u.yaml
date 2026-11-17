@@ -1,0 +1,117 @@
+# mzMeanDifferences.u.yaml
+name: mzMeanDifferences
+title: Mean Difference Models
+jus: '3.0'
+stage: 0
+compilerMode: tame
+events:
+  loaded: ./main::loaded
+  update: ./main::update
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Study Label
+        children:
+          - type: VariablesListBox
+            name: slab
+            maxItemCount: 1
+            isTarget: true
+            ghostText: required
+      - type: TargetLayoutBox
+        label: Group One
+        children:
+          - type: VariablesListBox
+            name: n1i
+            maxItemCount: 1
+            isTarget: true
+            ghostText: required (N)
+      - type: TargetLayoutBox
+        label: ''
+        children:
+          - type: VariablesListBox
+            name: m1i
+            maxItemCount: 1
+            isTarget: true
+            ghostText: required (Mean)
+      - type: TargetLayoutBox
+        label: ''
+        children:
+          - type: VariablesListBox
+            name: sd1i
+            maxItemCount: 1
+            isTarget: true
+            ghostText: required (Sd)
+      - type: TargetLayoutBox
+        label: Group Two
+        children:
+          - type: VariablesListBox
+            name: n2i
+            maxItemCount: 1
+            isTarget: true
+            ghostText: required (N)
+      - type: TargetLayoutBox
+        label: ''
+        children:
+          - type: VariablesListBox
+            name: m2i
+            maxItemCount: 1
+            isTarget: true
+            ghostText: required (Mean)
+      - type: TargetLayoutBox
+        label: ''
+        children:
+          - type: VariablesListBox
+            name: sd2i
+            maxItemCount: 1
+            isTarget: true
+            ghostText: required (Sd)
+
+      - type: TargetLayoutBox
+        label: Subgroup Analysis
+        children:
+          - type: VariablesListBox
+            name: subgroup
+            maxItemCount: 1
+            isTarget: true
+            ghostText: optional
+            events:
+              change: ./main::onChange_subgroup
+
+      - type: TargetLayoutBox
+        label: Moderators
+        children:
+          - type: VariablesListBox
+            name: moderator
+            isTarget: true
+            ghostText: |-
+              optional
+              Covariates: Continuous
+              Factors: Nominal/Ordinal
+            events:
+              change: ./main::onChange_moderator
+
+      - type: TargetLayoutBox
+        label: Risk of Bias Domains
+        children:
+          - type: VariablesListBox
+            name: robDomains
+            maxItemCount: 6
+            isTarget: true
+            ghostText: |-
+              optional
+              Bias domains and overall rating
+            events:
+              change: ./main::onChange_robDomains
+
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: CustomControl
+        name: tabbedControl
+        stretchFactor: 1
+        events:
+          creating: ./main::tabbedControl_creating

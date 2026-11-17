@@ -1,0 +1,43 @@
+Package: Metafora
+Type: Package
+Title: A Unified Synthesis Tool
+Version: 2.0.0
+Date: 2026-11-17
+Authors@R: c(
+    person("Maurizio", "Agosti", email = "magosti@gmail.com", role = c("aut", "cre")),
+    person("Jonathon", "Love", role = "ctb")
+    )
+Description: This versatile module provides a streamlined interface for conducting
+             meta-analyses using the robust metafor R package engine by Wolfgang Viechtbauer.
+             It offers a unified framework to handle six core data types:
+             correlations, dichotomous outcomes, pre-calculated effect sizes, mean differences,
+             proportions, and Cronbach’s alpha.
+             Whether you are aggregating raw experimental data or standardized coefficients,
+             Metafora ensures statistical rigor across all research designs.
+BugReports: https://github.com/MAgojam/Metafora/issues
+License: GPL (>= 2)
+Depends: R (>= 4.5.0)
+Encoding: UTF-8
+Imports: 
+    jmvcore (>= 2.4.2),
+    BiasedUrn,
+    ggplot2 (>= 2.2.1),
+    gsl,
+    graphics,
+    grid,
+    png,
+    digest,
+    jsonlite,
+    metafor (>= 5.3-4),
+    poibin,
+    puniform,
+    R6,
+    stats,
+    TOSTER,
+    utils
+Suggests:
+    testthat (>= 3.0.0),
+    metadat,
+    RProtoBuf
+Config/testthat/edition: 3
+Remotes: MAgojam/metafor@0031b3ea9d76a38fde69961af957a3fe16f40c1a

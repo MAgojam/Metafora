@@ -1,0 +1,988 @@
+# mzEffectSizes.a.yaml
+# @model: effectsize
+---
+name:  mzEffectSizes
+title: Generic Effect Sizes
+menuGroup: Metafora
+menuSubgroup: Summary
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: d3ExportForest
+      type: String
+      hidden: true
+      default: ''
+
+    - name: d3ExportFunnel
+      type: String
+      hidden: true
+      default: ''
+
+    - name: d3ExportLeave1Out
+      type: String
+      hidden: true
+      default: ''
+
+    - name: d3ExportCumulative
+      type: String
+      hidden: true
+      default: ''
+
+    - name: data
+      type: Data
+
+    - name: slab
+      title: Study label
+      suggested: [nominal]
+      type: Variable
+
+    - name: yi
+      title: Effect Size
+      suggested: [continuous]
+      permitted: [numeric]
+      type: Variable
+
+    - name: vi
+      title: Sampling Variance or SE
+      suggested: [continuous]
+      permitted: [numeric]
+      type: Variable
+
+    - name: ciLower
+      title: Lower Limit
+      suggested: [continuous]
+      permitted: [numeric]
+      type: Variable
+
+    - name: ciUpper
+      title: Upper Limit
+      suggested: [continuous]
+      permitted: [numeric]
+      type: Variable
+
+    - name: inputCiLevel
+      title: Input CI (%)
+      type: Number
+      min: 50
+      max: 99.9
+      default: 95
+
+    - name: subgroup
+      title: Subgroup Analysis
+      suggested: [nominal, ordinal]
+      permitted: [factor]
+      type: Variable
+
+    - name: moderator
+      title: Moderators
+      suggested: [nominal, ordinal, continuous]
+      permitted: [numeric, factor]
+      type: Variables
+
+    - name: robDomains
+      title: Risk of Bias Domains
+      suggested: [nominal, ordinal]
+      permitted: [factor]
+      type: Variables
+
+    - name: tabbedControl
+      title: ''
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: tabbedControlModelType
+      title: ''
+      type: String
+      default: 'effectsize'
+      hidden: true
+
+    # @CONFIGTAB1 - model
+
+    - name: modelest
+      title: Estimator
+      type: List
+      options:
+        - name: "DL"
+          title: DerSimonian-Laird
+        - name: "HE"
+          title: Hedges
+        - name: "HS"
+          title: Hunter-Schmidt
+        - name: "SJ"
+          title: Sidik-Jonkman
+        - name: "SJ2"
+          title: SJ (Alternative Init.)
+        - name: "ML"
+          title: Maximum-Likelihood
+        - name: "REML"
+          title: Restricted Maximum-Likelihood
+        - name: "EB"
+          title: Empirical Bayes
+        - name: "PM"
+          title: Paule-Mandel
+        - name: "FE"
+          title: Fixed-Effect
+      default: REML
+      hidden: true
+
+    - name: testType
+      title: Select Tests
+      type: List
+      options:
+        - name: "z"
+          title: z test
+        - name: "t"
+          title: t test
+        - name: "knha"
+          title: Knapp and Hartung Adjustment
+        - name: "adhoc"
+          title: Knapp–Hartung (Ad Hoc Modification)
+      default: z
+      hidden: true
+
+    - name: level
+      type: Number
+      title: "Confidence Interval (%)"
+      min: 50
+      max: 99.9
+      default: 95
+      hidden: true
+
+    - name: modelmea
+      title: "Effect size"
+      type: List
+      options:
+        - name: GEN
+          title: "Generic ES"
+      default: GEN
+      hidden: true
+
+    - name: meaType
+      title: "Measure Type"
+      type: List
+      options:
+        - name: vimt
+          title: 'Variance'
+        - name: seimt
+          title: 'SE'
+        - name: cimt
+          title: 'CI'
+      default: vimt
+      hidden: true
+    
+    # Non utilizzato (ma lasciarlo per le funzioni generalizzate)  
+    - name: showBackTransform
+      title: Back-Transformed ⮌
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: showHetTest
+      title: Heteroscedasticity test
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: hetTestBoot
+      title: Bootstrap samples
+      type: Number
+      default: 1000
+      min: 100
+      max: 100000
+      hidden: true
+
+    - name: showHEC
+      title: Heterogeneity comparison
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: showModelFit
+      title: Display model fit
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: showTextRepo
+      title: Text reporting
+      type: Bool
+      default: false
+      hidden: true
+
+    # @CONFIGTAB2 - forest
+
+    - name: addfit
+      title: Overall
+      type: Bool
+      default: true
+      hidden: true
+
+    - name: addpred
+      title: Prediction interval
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: forestPredictionStyle
+      title: Classic prediction style
+      type: List
+      options:
+        - name: line
+          title: Line
+        - name: line2
+          title: Line with limits
+        - name: diamond
+          title: Diamond
+        - name: bar
+          title: Bar
+        - name: shade
+          title: Shaded bar
+        - name: dist
+          title: Distribution
+      default: line2
+      hidden: true
+
+    - name: showweights
+      title: Study Weights
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: shadeRows
+      title: Shade rows
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: pchForest
+      title: Point style
+      type: List
+      options:
+        - name: "bSquare"
+          title: Black Square
+        - name: "eSquare"
+          title: Empty Square
+        - name: "bCircle"
+          title: Black Circle  
+        - name: "eCircle"
+          title: Empty Circle
+        - name: "bTriangle"
+          title: Black Triangle  
+        - name: "eTriangle"
+          title: Empty Triangle
+        - name: "bDiamond"
+          title: Black Diamond  
+        - name: "eDiamond"
+          title: Empty Diamond
+      default: "bSquare"
+      hidden: true
+
+    - name: mainTitle
+      title: Main title
+      type: String
+      hidden: true
+
+    - name: forestOrder
+      title: Study order
+      type: List
+      options:
+        - name: "obs"
+          title: Effect Size (Observed)
+        - name: "fit"
+          title: Predicted Value (Fitted)
+        - name: "prec"
+          title: Precision (Inverse Variance)
+        - name: "resid"
+          title: Residual (Unstandardized)
+        - name: "rstandard"
+          title: Residual (Standardized)
+        - name: "abs.resid"
+          title: Absolute Residual
+        - name: "abs.rstandard"
+          title: Absolute Standardized Residual
+      default: fit
+      hidden: true
+
+    - name: xAxisTitle
+      title: x-axis title
+      type: String
+      hidden: true
+
+    - name: ordSubgr
+      title: Order Subgroup
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: steps
+      title: x-axis steps
+      type: Number
+      min: 3
+      max: 17
+      default: 5
+      hidden: true
+
+    - name: forestPlotMode
+      title: ''
+      type: List
+      options:
+        - name: "posLorT"
+          title: ''
+        - name: "posOff"
+          title: ''
+        - name: "posRorB"
+          title: ''
+      default: "posOff"
+      hidden: true
+
+    - name: forestPlotWidth
+      title: Width
+      type: Number
+      min: 600
+      max: 1200
+      default: 600
+      hidden: true
+
+    - name: forestPlotHeight
+      title: Height
+      type: Number
+      min: 600
+      max: 900
+      default: 600
+      hidden: true
+
+    - name: forestTableShow
+      title: Show Table
+      type: Bool
+      default: false
+      hidden: true
+
+    # @CONFIGTAB3 - funnel
+
+    - name: forestRobShow
+      title: Show RoB
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: yaxis
+      title: Funnel plot y-axis options
+      type: List
+      options:
+        - name: "sei"
+          title: Standard error
+        - name: "vi"
+          title: Sampling variance
+        # - name: "ni"
+        #   title: Sample size
+        # - name: "sqrtni"
+        #   title: Square root sample size
+        # - name: "lni"
+        #   title: Log of the sample size
+      default: sei
+      hidden: true
+
+    - name: yaxisInv
+      title: Funnel plot y-axis inverse
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: enhanceFunnel
+      title: Contour-Enhanced
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: sunsetFunnel
+      title: Power-enhanced (Sunset)
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: funnelPlotMode
+      title: ''
+      type: List
+      options:
+        - name: "posLorT"
+          title: ''
+        - name: "posOff"
+          title: ''
+        - name: "posRorB"
+          title: ''
+      default: "posOff"
+      hidden: true
+
+    - name: funnelPlotWidth
+      title: Width
+      type: Number
+      min: 600
+      max: 1200
+      default: 600
+      hidden: true
+
+    - name: funnelPlotHeight
+      title: Height
+      type: Number
+      min: 500
+      max: 900
+      default: 500
+      hidden: true
+
+    # @CONFIGTAB4 - diagnostic
+
+    - name: infDiagPlotShow
+      title: Show Plot of Influence Diagnostics
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: infQQPlotShow
+      title: Show Q-Q Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: lhPlotShow
+      title: Show Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: tostLower
+      type: Number
+      title: Lower Bound
+      min: -20
+      max: 20
+      default: -0.1
+      hidden: true
+
+    - name: tostUpper
+      type: Number
+      title: Upper Bound
+      min: -20
+      max: 20
+      default: 0.1
+      hidden: true
+
+    - name: tostAlpha
+      type: Number
+      title: Alpha Level
+      min: 0.001
+      max: 1
+      default: 0.05
+      hidden: true
+
+    - name: showTost
+      title: Show Table
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: tostPlotShow
+      title: Show Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: scatterPlotShow
+      title: Show Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: scatterPlotLegend
+      title: Show Legend
+      type: Bool
+      default: true
+      hidden: true
+
+    - name: scatterPlotLabel
+      title: Show Study Labels
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: scatterPlotGrid
+      title: Show Grid
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: scatterPlotPI
+      title: Show Prediction Interval
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: scatterPlotCI
+      title: Show Confidence Interval
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: scatterPlotScale
+      title: Scale Points by Precision
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: radialPlotShow
+      title: Show Radial Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: radialPlotCenter
+      title: Center on Estimate
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: radialPlotTransf
+      title: Arc Scale
+      type: List
+      options:
+        - name: none
+          title: "Original scale"
+        - name: exp
+          title: "Exponential"
+        - name: ilogit
+          title: "Inverse Logit"
+        - name: ztor
+          title: "Fisher's z to r"
+      default: none
+      hidden: true
+
+    - name: radialPlotSteps
+      title: Y-axis Steps
+      type: Integer
+      default: 7
+      min: 3
+      max: 15
+      hidden: true
+
+    - name: baujatPlotShow
+      title: Show Baujat Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: baujatPlotSymbol
+      title: Symbol
+      type: List
+      options:
+        - name: ids
+          title: "Study IDs"
+        - name: slab
+          title: "Study Labels"
+        - name: pch
+          title: "Points"
+      default: ids
+      hidden: true
+
+    - name: baujatPlotGrid
+      title: Show Grid
+      type: Bool
+      default: true
+      hidden: true
+
+    - name: goshPlotShow
+      title: Show GOSH Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: goshPlotHet
+      title: Heterogeneity Measure
+      type: List
+      options:
+        - name: I2
+          title: "I²"
+        - name: H2
+          title: "H²"
+        - name: QE
+          title: "Q"
+        - name: tau2
+          title: "τ²"
+        - name: tau
+          title: "τ"
+      default: I2
+      hidden: true
+
+    - name: goshPlotSubsets
+      title: Max Subsets
+      type: Integer
+      default: 1000
+      min: 100
+      max: 10000
+      hidden: true
+
+    - name: goshPlotOut
+      title: Highlight Study
+      type: Integer
+      default: 0
+      min: 0
+      hidden: true
+
+    - name: leave1outPlotMode
+      title: Show Plot
+      type: List
+      options:
+        - name: posLorT
+          title: Classic
+        - name: posOff
+          title: Off
+        - name: posRorB
+          title: Interactive
+      default: posOff
+      hidden: true
+
+    - name: leave1outPlotShow
+      title: Show Plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: leave1outTableShow
+      title: Show Table
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: leave1outPrediction
+      title: Prediction Interval
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: leave1outShade
+      title: Shade Rows
+      type: Bool
+      default: true
+      hidden: true
+
+    # Compatibilita dei file salvati prima dei controlli indipendenti.
+    - name: leave1outMode
+      title: ''
+      type: List
+      options:
+        - name: "posLorT"
+          title: ''
+        - name: "posOff"
+          title: ''
+        - name: "posRorB"
+          title: ''
+      default: "posOff"
+      hidden: true
+
+    - name: leave1outGroupOrder
+      title: Subgroup Order
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: leave1outOrder
+      title: Order
+      type: List
+      options:
+        - name: "none"
+          title: Original Study Order
+        - name: "shift"
+          title: Influence (Delta Estimate)
+        - name: "estimate"
+          title: Estimate (ascending)
+        - name: "pval"
+          title: p-value (ascending)
+        - name: "study"
+          title: Study Name (A-Z)
+      default: "none"
+      hidden: true
+
+    # @CONFIGTAB5 - pubblication
+
+    - name: distabPBA
+      title: Pubblication Bias Assessment
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: showTes
+      title: Show TES
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: pcurvePlotShow
+      title: Show P-curve
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: fsntype
+      title: Fail-Safe N method
+      type: List
+      options:
+        - name: Rosenthal
+          title: 'Rosenthal'
+        - name: Orwin
+          title: 'Orwin'
+        - name: Rosenberg
+          title: 'Rosenberg'
+      default: Rosenthal
+      hidden: true
+
+    - name: tesAlternative
+      title: Hypothesis test type
+      type: List
+      options:
+        - name: less
+          title: "Less"
+        - name: two.sided
+          title: "Two Sided"
+        - name: greater
+          title: "Greater"
+      default: greater
+      hidden: true
+
+    - name: tesH0
+      type: Number
+      title: Effect size under the null hypothesis
+      min: -9999
+      max: 9999
+      default: 0
+      hidden: true
+
+    - name: tesTest
+      title: Test used
+      type: List
+      options:
+        - name: chi2
+          title: "χ²"
+        - name: binom
+          title: "Binom"
+        - name: exact
+          title: "Exact"
+      default: chi2
+      hidden: true
+
+    - name: tesAlpha
+      type: Number
+      title: Alpha level
+      min: 0.0001
+      max: 1
+      default: 0.05
+      hidden: true
+
+    - name: showSelmodel
+      title: Show selection model output
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: selModelType
+      title: Model Type
+      type: List
+      options:
+        - name: beta
+          title: 'Beta'
+        - name: halfnorm
+          title: 'Half normal'
+        - name: logistic
+          title: 'Logistic'
+        - name: negexp
+          title: 'Negative exponential'
+        - name: power
+          title: 'Power'
+        - name: stepfun
+          title: 'Step function'
+      default: halfnorm
+      hidden: true
+
+    - name: showPuniform
+      title: Show p-uniform output
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: alphaPunif
+      title: Alpha p-uniform
+      type: Number
+      min: 0.0001
+      max: 1
+      default: 0.05
+      hidden: true
+
+    - name: methodPunif
+      title: Metodo p-uniform
+      type: List
+      options:
+        - name: P
+          title: "Irwin-Hall distribution"
+        - name: ML
+          title: "Maximum Likelihood"
+        - name: LNP
+          title: "Fisher's method LNP"
+        - name: LN1MINP
+          title: "Fisher's method 1-p transf"
+        # - name: KS
+        #   title: "Kolmogorov-Smirnov test"
+        # - name: AD
+        #   title: "Anderson-Darling test"
+      default: P
+      hidden: true
+
+    - name: puniformSide
+      title: Effect size direction
+      type: List
+      options:
+        - name: left
+          title: 'Left'
+        - name: right
+          title: 'Right'
+      default: right
+      hidden: true
+
+    # - name: pcurvePlotWidth
+    #   title: Width
+    #   type: Number
+    #   min: 600
+    #   max: 1200
+    #   default: 600
+    #   hidden: true
+
+    # - name: pcurvePlotHeight
+    #   title: Height
+    #   type: Number
+    #   min: 500
+    #   max: 1000
+    #   default: 600
+    #   hidden: true
+
+    # @CONFIGTAB6 - save
+
+    - name: effectsizeOV
+      title: Effect Size
+      type: Output
+      hidden: true
+
+    - name: stderrorOV
+      title: Standard Error
+      type: Output
+      hidden: true
+
+    - name: varianceOV
+      title: Variance
+      type: Output
+      hidden: true
+
+    # Oggetto tree-state per logging File e UI 
+    - name: jlogMode
+      title: 'Debug Mode'
+      type: List
+      options:
+        - name: "posLorT"
+          title: "File Only"
+        - name: "posOff"
+          title: "Off"
+        - name: "posRorB"
+          title: "File + UI HTML"
+      default: "posOff"
+      hidden: true
+
+    # Analisi cumulativa: controlli custom nel TAB Diagnostics.
+    - name: cumulativeTableShow
+      title: Cumulative Table
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: cumulativePlotMode
+      title: Cumulative Plot Mode
+      type: List
+      options:
+        - {name: posLorT, title: Classic}
+        - {name: posOff, title: Off}
+        - {name: posRorB, title: Interactive}
+      default: posOff
+      hidden: true
+
+    - name: cumulativeOrder
+      title: Cumulative Order
+      type: List
+      options:
+        - {name: original, title: Original Study Order}
+        - {name: se, title: Standard Error}
+        - {name: study, title: Study Label}
+        - {name: variable, title: Selected Variable}
+      default: original
+      hidden: true
+
+    - name: cumulativeGroupOrder
+      title: Cumulative Subgroup Order
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: cumulativeDirection
+      title: Cumulative Direction
+      type: List
+      options:
+        - {name: asc, title: Ascending}
+        - {name: desc, title: Descending}
+      default: asc
+      hidden: true
+
+    - name: cumulativeSortVariable
+      title: Cumulative Ordering Variable
+      type: Variable
+      suggested: [continuous, nominal, ordinal]
+      hidden: true
+
+    - name: cumulativePrediction
+      title: Prediction Interval
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: cumulativeShade
+      title: Cumulative Shade Rows
+      type: Bool
+      default: false
+      hidden: true
+
+
+    # Probabilita' predittive: opzioni esposte dalla UI custom.
+    - name: predProbTableShow
+      title: Show probability table
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: predProbPlotShow
+      title: Show probability plot
+      type: Bool
+      default: false
+      hidden: true
+
+    - name: predProbThreshold
+      title: Effect threshold
+      type: Number
+      default: 0
+      hidden: true
+
+    - name: predProbDirection
+      title: Probability direction
+      type: List
+      options:
+        - name: below
+          title: Below threshold
+        - name: above
+          title: Above threshold
+      default: below
+      hidden: true
+
+    # Test nativo di eterogeneita eteroschedastica, Score con bootstrap parametrico.
+...

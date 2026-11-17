@@ -1,0 +1,69 @@
+---
+refs:
+    metafor:
+        type: 'article'
+        author: Viechtbauer, W.
+        year: 2010
+        title: Conducting meta-analyses in R with the metafor package
+        publisher: Journal of Statistical Software
+        volume: 36
+        pages: 1-48
+        url: https://www.jstatsoft.org/article/view/v036i03
+        
+    bayesmeta:
+        type: 'article'
+        author: Röver, C.
+        year: 2018
+        title: Bayesian random-effects meta-analysis using the bayesmeta R package
+        publisher: arXiv
+        url: https://arxiv.org/abs/1711.08683
+   
+    TOSTER:
+        type: 'article'
+        author: Lakens, D.
+        year: 2017
+        title: 'Equivalence tests: A practical primer for t-tests, correlations, and meta-analyses'
+        publisher: Social Psychological and Personality Science
+        volume: 1
+        pages: 1-8
+        url: https://doi.org/10.1177/1948550617697177
+
+    robvis:
+        type: 'software'
+        author: McGuinness, L.
+        year: 2019
+        title: 'robvis: An R package and web application for visualising risk-of-bias assessments.'
+        publisher: '[R package]. Retrieved from https://github.com/mcguinlu/robvis'
+        url: https://github.com/mcguinlu/robvis
+
+    pcurve:
+        type: 'article'
+        author: Simonsohn, U., Nelson, L. D., & Simmons, J. P.
+        year: 2014
+        title: 'p-Curve and Effect Size: Correcting for Publication Bias Using Only Significant Results'
+        publisher: Perspectives on Psychological Science
+        volume: 9
+        pages: 666-681
+        url: https://doi.org/10.1177/1745691614553988
+        
+    tes:
+        type: 'article'
+        author: Francis, G.
+        year: 2013
+        title: 'Replication, statistical consistency, and publication bias'
+        publisher: Journal of Mathematical Psychology
+        volume: 57
+        pages: 153-169
+        url: https://doi.org/10.1016/j.jmp.2013.02.003 
+
+    llplot:
+        type: 'article'
+        author: van Houwelingen, H. C., Zwinderman, K. H., Stijnen, T.
+        year: 1993
+        title: 'A bivariate approach to meta-analysis'
+        publisher: Statistics in Medicine
+        volume: 12
+        pages: 2273-2284
+        url: https://doi.org/10.1002/sim.4780122405
+
+...

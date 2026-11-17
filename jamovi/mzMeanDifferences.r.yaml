@@ -1,0 +1,1364 @@
+# mzMeanDifferences.r.yaml
+---
+name:  mzMeanDifferences
+title: Mean Difference Models
+jrs:   '1.1'
+
+items:
+    # Impronta degli input globali: consente il riuso solo a parità dei dati effettivi.
+    - name: d3ExportMeta
+      title: ''
+      type: Group
+      visible: false
+      clearWith: []
+      items: []
+
+    - name: globalInputState
+      type: Group
+      items: []
+      title: ''
+      visible: false
+      clearWith: []
+
+    # Cache statistiche separate dal disegno e dal ridimensionamento Image.
+    - name: influenceResults
+      type: Group
+      items: []
+      title: ''
+      visible: false
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+
+    - name: goshResults
+      type: Group
+      items: []
+      title: ''
+      visible: false
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - goshPlotSubsets
+
+    # Isola canali e preferenze D3 fra analisi della stessa sessione.
+    - name: d3SessionScope
+      type: Html
+      title: ''
+      visible: false
+      clearWith: []
+
+    - name: toastTrigger
+      type: Html
+      visible: false    
+
+    - name: debugLog
+      title: ''
+      type: Html
+      visible: (jlogMode == "posRorB")
+
+    - name: instructions
+      title: 'Instructions'
+      type: Html
+      visible: (!slab)
+
+    # TAB 1 - MODEL ----------------------
+
+    - name: textRICH
+      type: Table
+      refs: [ metafor ]
+      title: 'Random-Effects Model'
+      rows:  1
+      columns:
+        - name: Intercept
+          title: ''
+          type: text
+        - name: Estimate
+          title: "Estimate" 
+          type: number
+        - name: se
+          title: "SE" 
+          type: number
+        - name: stat
+          title: "Statistic"
+        - name: p
+          type: number
+          format: zto,pvalue
+        - name: CILow
+          superTitle: "95% CI"
+          title: "LL"
+          type: number
+          format: zto
+        - name: CIHigh
+          superTitle: "95% CI"
+          title: "UL"
+          type: number
+          format: zto
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+
+    - name: tableTauSqaured
+      title: Heterogeneity Statistics
+      type: Table
+      rows:  1
+      columns:
+        - name: tauSQRT
+          title: 'Tau'
+          type: number
+          format: zto
+          visible: (modelest != 'FE')
+        - name: tauSqComb
+          title: 'Tau²'
+          type: number
+          format: zto
+          visible: (modelest != 'FE')
+        - name: ISqu
+          title: 'I²'
+          type: text
+        - name: HSqu
+          title: 'H²'
+          type: number
+          format: zto
+        - name: RSqu
+          title: 'R²'
+          type: text
+          visible: (moderator)
+        - name: Qall
+          title: 'Q'
+          type: number
+          format: zto
+        - name: QallDF
+          title: 'df'
+          type: integer  
+        - name: QallPval
+          title: 'p'
+          type: number
+          format: zto,pvalue
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+
+    - name: subgroupResults
+      title: "Subgroup Analysis"
+      type: Table
+      visible: (subgroup)
+      description: 'Results by subgroup levels'
+      rows: (levels(subgroup))
+      columns:
+        - name: level
+          title: 'Subgroup'
+          content: ($key)
+          type: text
+        - name: k
+          title: 'k'
+          type: integer
+        - name: Estimate
+          title: 'Estimate'
+          type: number
+          format: zto
+        - name: CILow
+          superTitle: '95% CI'
+          title: 'LL'
+          type: number
+          format: zto
+        - name: CIHigh
+          superTitle: '95% CI'
+          title: 'UL'
+          type: number
+          format: zto
+        - name: p
+          title: 'p'
+          type: number
+          format: zto,pvalue
+        - name: I2
+          title: 'I²(%)'
+          type: text
+        - name: QTest
+          title: 'Q(p)'
+          type: text
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - testType
+
+    - name: hetTestResults
+      title: ''
+      type: Group
+      visible: false
+      items: []
+      clearWith: []
+
+    - name: hetTestTable
+      title: Heteroscedastic heterogeneity test
+      type: Table
+      visible: (showHetTest)
+      rows: 1
+      refs: [ metafor ]
+      columns:
+        - name: k
+          title: k
+          type: integer
+        - name: method
+          title: Estimator
+          type: text
+        - name: test
+          title: Test
+          type: text
+        - name: statistic
+          title: Statistic
+          type: number
+          format: zto
+        - name: df
+          title: df
+          type: integer
+        - name: p
+          title: p
+          type: number
+          format: zto,pvalue
+        - name: bootstrap
+          title: Bootstrap
+          type: text
+      clearWith:
+        - hetTestBoot
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+
+    - name: heterogeneityComparison
+      title: "Heterogeneity Estimators Comparison"
+      type: Table
+      visible: (showHEC)
+      rows: 9
+      columns:
+        - name: method
+          title: 'Method'
+          type: text
+        - name: tau
+          title: 'τ'
+          type: number
+          format: zto
+        - name: mu
+          title: 'μ'
+          type: number
+          format: zto
+        - name: se
+          title: 'se'
+          type: number
+          format: zto
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - modelmea
+        - subgroup
+        - moderator
+
+    - name:  modelFitRICH
+      title: "Model Fit Statistics and Information Criteria"
+      type: Table
+      visible: (showModelFit)
+      rows:  2
+      columns:
+        - name: label
+          title: ''
+          type: text
+        - name: loglikelihood
+          title: log-likelihood
+          type: number
+          format: zto
+        - name: deviance
+          title: Deviance
+          type: number
+          format: zto
+        - name: AIC
+          type: number
+          format: zto
+        - name: BIC
+          type: number
+          format: zto
+        - name: AICc
+          type: number
+          format: zto
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+
+    - name: OutputHtml
+      title: "Text Reporting"
+      type: Html
+      visible: (showTextRepo)
+
+    # TAB 2 - FOREST PLOT ----------------------
+
+    # --- Cache dimensioni Forest Plot (invalidata solo su cicli statistici) ---
+    - name: mzForestPlotSizeCache
+      type: Group
+      visible: false
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - forestRobShow
+        - robDomains
+        - testType
+      items: []
+
+    - name: mzForestPlot
+      title: "Forest Plot"
+      type: Image
+      # width:  600
+      # height: 500
+      renderFun: .mzForestPlot
+      visible: (forestPlotMode == "posLorT")
+      refs: [ metafor ]
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelmea
+        - modelest
+        - level
+        - forestRobShow
+        - robDomains
+        - addpred
+        - forestPredictionStyle
+        - addfit
+        - showweights
+        - forestOrder
+        - ordSubgr
+        - showBackTransform
+        - steps
+        - xAxisTitle
+        - shadeRows
+        - mainTitle
+        - pchForest
+        - testType
+        # - forestPlotWidth
+        # - forestPlotHeight
+
+    - name: outD3ForestPlot
+      title: "Forest Plot"
+      type: Svg
+      visible: (forestPlotMode == "posRorB")
+      clearWith:
+        - shadeRows
+        - ordSubgr
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelmea
+        - modelest
+        - level
+        - addpred
+        - forestPredictionStyle
+        - addfit
+        - showweights
+        - forestOrder
+        - showBackTransform
+        - steps
+        - xAxisTitle
+        - mainTitle
+        - pchForest
+        - testType
+        - robDomains
+        - forestRobShow
+
+    - name: outD3ForestPlotExport
+      title: "Forest Plot"
+      type: Image
+      renderFun: .renderD3Export
+      visible: false
+      width: 600
+      height: 400
+      clearWith: [d3ExportForest]
+
+    - name: outHtmlTable
+      title: "Forest Table"
+      type: Html
+      visible: (forestTableShow)
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelmea
+        - modelest
+        - showBackTransform
+        - level
+        - shadeRows
+        - forestOrder
+        - testType
+
+    # TAB 3 - FUNNEL PLOT ----------------------
+
+    # --- Cache dimensioni Funnel Plot (invalidata solo su cicli statistici) ---
+    - name: mzFunnelPlotSizeCache
+      type: Group
+      visible: false
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - level
+      items: []
+
+    - name: mzFunnelPlot
+      title: "Funnel Plot"
+      type: Image
+      # width:  600
+      # height: 500
+      renderFun: .mzFunnelPlot
+      visible: (funnelPlotMode == "posLorT")
+      refs: [ metafor ]
+      clearWith:
+        - xAxisTitle
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - showBackTransform
+        - level
+        - yaxis
+        - yaxisInv
+        - enhanceFunnel
+        # - funnelPlotWidth
+        # - funnelPlotHeight
+
+    - name: outD3FunnelPlot
+      title: "Funnel Plot"
+      type: Html
+      visible: (funnelPlotMode == "posRorB")
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - showBackTransform
+        - level
+        - yaxis
+        - yaxisInv
+        - enhanceFunnel
+        - sunsetFunnel
+        - subgroup
+
+    # TAB 4 - DIAGNOSTICS ----------------------
+
+    # --- Influence Diagnostics Plot ---
+    - name: outD3FunnelPlotExport
+      title: "Funnel Plot"
+      type: Image
+      renderFun: .renderD3Export
+      visible: false
+      width: 600
+      height: 400
+      clearWith: [d3ExportFunnel]
+
+    - name: mzInfDiagPlot
+      title: Influence Diagnostics
+      type: Image
+      width: 600
+      height: 500
+      renderFun: .mzInfDiagPlot
+      visible: (infDiagPlotShow)
+      refs: [ metafor ]
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - subgroup
+        - testType
+
+    # --- Q-Q Plot ---
+    - name: mzInfQQPlot
+      title: Q-Q Plot
+      type: Image
+      width: 600
+      height: 500
+      renderFun: .mzInfQQPlot
+      visible: (infQQPlotShow)
+      refs: [ metafor ]
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - subgroup
+        - testType
+
+    # --- Likelihood Plot ---
+    - name:  mzLhPlot
+      title: Likelihood Plot
+      type: Image
+      renderFun: .mzLhPlot
+      visible: (lhPlotShow)
+      width: 600
+      height: 450
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - subgroup
+
+    # --- Scatter/Bubble Plot ---
+    - name:  mzScatterPlot
+      title: Scatter Plot
+      type: Image
+      renderFun: .mzScatterPlot
+      requiresData: true
+      visible: (scatterPlotShow)
+      width: 600
+      height: 500
+      clearWith:
+        - showBackTransform
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - scatterPlotLegend
+        - scatterPlotLabel
+        - scatterPlotGrid
+        - scatterPlotPI
+        - scatterPlotCI
+        - scatterPlotScale
+        - subgroup
+
+    # --- Radial Plot ---
+    - name: mzRadialPlot
+      title: Radial Plot
+      type: Image
+      renderFun: .mzRadialPlot
+      visible: (radialPlotShow)
+      width: 600
+      height: 500
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - radialPlotCenter
+        - radialPlotTransf
+        - radialPlotSteps
+        - subgroup
+
+    # --- Baujat Plot ---        
+    - name: mzBaujatPlot
+      title: Baujat Plot
+      type: Image
+      renderFun: .mzBaujatPlot
+      visible: (baujatPlotShow)
+      width: 600
+      height: 500
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - baujatPlotSymbol
+        - baujatPlotGrid
+        - subgroup
+        - testType
+
+    # --- Gosh Plot ---
+    - name: mzGoshPlot
+      title: GOSH Plot
+      type: Image
+      renderFun: .mzGoshPlot
+      visible: (goshPlotShow)
+      width: 600
+      height: 500
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - goshPlotHet
+        - goshPlotSubsets
+        - goshPlotOut
+        - subgroup
+
+    # --- Tost Plot ---
+    - name: mzTostPlot
+      title: Tost Plot
+      type: Image
+      renderFun: .mzTostPlot
+      visible: (tostPlotShow)
+      width: 600
+      height: 500
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - tostLower
+        - tostUpper
+        - tostAlpha
+        - subgroup
+        - testType
+
+    - name: outHtmlTost
+      title: "Equivalence Testing"
+      type: Html
+      visible: (showTost)
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - tostLower
+        - tostUpper
+        - tostAlpha
+        - subgroup
+        - testType
+
+    # --- Leave One Out ---
+    # La cache numerica è indipendente da tabella, modalità e opzioni estetiche.
+    - name: cumulativeResults
+      type: Group
+      title: ''
+      visible: false
+      items: []
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - cumulativeOrder
+        - cumulativeDirection
+        - cumulativeSortVariable
+
+    - name: cumulativePredictionCache
+      type: Group
+      title: ''
+      visible: false
+      items: []
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - cumulativeOrder
+        - cumulativeDirection
+        - cumulativeSortVariable
+
+    - name: cumulativePlotSizeCache
+      type: Group
+      title: ''
+      visible: false
+      items: []
+      clearWith: []
+
+    - name: cumulativePlot
+      title: Cumulative Meta-Analysis
+      type: Image
+      mode: vector
+      refs: [metafor]
+      renderFun: .mzCumulativePlot
+      requiresData: false
+      visible: (cumulativePlotMode == 'posLorT')
+      width: 1040
+      height: 500
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - cumulativeOrder
+        - cumulativeDirection
+        - cumulativeGroupOrder
+        - cumulativeSortVariable
+        - showBackTransform
+        - cumulativeShade
+        - cumulativePrediction
+
+    - name: outD3CumulativePlot
+      title: Cumulative Meta-Analysis
+      type: Html
+      refs: [metafor]
+      visible: (cumulativePlotMode == 'posRorB')
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - cumulativeOrder
+        - cumulativeDirection
+        - cumulativeGroupOrder
+        - cumulativeSortVariable
+        - cumulativePlotMode
+        - cumulativePrediction
+
+    - name: outD3CumulativePlotExport
+      title: "Cumulative Meta-Analysis"
+      type: Image
+      renderFun: .renderD3Export
+      visible: false
+      width: 600
+      height: 400
+      clearWith: [d3ExportCumulative]
+
+    - name: cumulativeTable
+      title: Cumulative Meta-Analysis Table
+      type: Html
+      visible: (cumulativeTableShow)
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - cumulativeOrder
+        - cumulativeDirection
+        - cumulativeGroupOrder
+        - cumulativeSortVariable
+        - showBackTransform
+        - cumulativePrediction
+
+    - name: leave1outResultsCache
+      title: ''
+      type: Group
+      visible: false
+      items: []
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - subgroup
+        - testType
+
+    - name: leave1outPredictionCache
+      title: ''
+      type: Group
+      visible: false
+      items: []
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - subgroup
+        - testType
+
+    - name: leave1outClassicCache
+      title: ''
+      type: Group
+      visible: false
+      items: []
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - subgroup
+        - testType
+        - leave1outMode
+        - leave1outOrder
+        - leave1outGroupOrder
+        - showBackTransform
+        - leave1outPlotShow
+        - leave1outPrediction
+        - leave1outShade
+        - leave1outPlotMode
+
+    - name: leave1outClassicPlot
+      title: Leave One Out
+      type: Image
+      mode: vector
+      renderFun: .mzLeaveOneOutClassicPlot
+      requiresData: false
+      width: 1040
+      height: 600
+      visible: (leave1outPlotMode == 'posLorT')
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - subgroup
+        - testType
+        - leave1outMode
+        - leave1outOrder
+        - leave1outGroupOrder
+        - showBackTransform
+        - leave1outPlotShow
+        - leave1outPrediction
+        - leave1outShade
+        - leave1outPlotMode
+
+    - name: outD3Leave1OutPlot
+      title: Leave One Out
+      type: Html
+      visible: (leave1outPlotMode == 'posRorB' || (leave1outPlotMode == 'posOff' && (leave1outPlotShow || leave1outMode == 'posRorB')))
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - subgroup
+        - testType
+        - leave1outMode
+        - leave1outOrder
+        - leave1outGroupOrder
+        - showBackTransform
+        - leave1outPlotShow
+        - leave1outPrediction
+        - leave1outShade
+        - leave1outPlotMode
+
+    - name: outD3Leave1OutPlotExport
+      title: "Leave One Out"
+      type: Image
+      renderFun: .renderD3Export
+      visible: false
+      width: 600
+      height: 400
+      clearWith: [d3ExportLeave1Out]
+
+    - name: outHtmlLeave1Out
+      title: Leave-One-Out Table
+      type: Html
+      visible: (leave1outTableShow || leave1outMode == 'posLorT')
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - level
+        - subgroup
+        - testType
+        - leave1outMode
+        - leave1outOrder
+        - leave1outGroupOrder
+        - showBackTransform
+        - leave1outTableShow
+        - leave1outPrediction
+        - leave1outShade
+
+
+    # TAB 5 - PUBBLICATION BIAS ----------------------
+
+    - name: tabPubBias
+      title: ""
+      type: Table
+      visible: (distabPBA)
+      # Le chiavi dichiarate consentono il ripristino di tutte le righe, senza ricostruirle.
+      rows: (if (length(moderator) > 0) c('1', 'Egger') else c('1', 'Egger', 'BeggMazumdar', 'TrimFill'))
+      columns:
+        - name: label
+          title: 'Test Name'
+          type: text
+        - name: failSafeNumber
+          title: 'value'
+          type: integer
+          format: zto
+        - name: p
+          type: number
+          format: zto,pvalue
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - fsntype
+        - subgroup
+        - testType
+
+    - name:  outHtmlSelmodel
+      title: "Selection Models"
+      type: Html
+      visible: (showSelmodel)
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - selModelType
+        - level
+        - subgroup
+
+    - name:  outHtmlTes
+      title: "Test of Excess Significance | Results"
+      type: Html
+      visible: (showTes)
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - tesAlternative
+        - tesAlpha
+        - tesH0
+        - subgroup
+        - tesTest
+
+    - name:  outHtmlPuniform
+      title: "Test p-uniform"
+      type: Html
+      visible: (showPuniform)
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - puniformSide
+        - subgroup
+        - methodPunif
+        - alphaPunif
+        - level
+
+    - name:  mzPcurvePlot
+      title: "p-Curve Plot"
+      type: Image
+      renderFun: .mzPcurvePlot
+      visible: (pcurvePlotShow)
+      width: 600
+      height: 500
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelest
+        - modelmea
+        - subgroup
+
+    # TAB 6 - SAVE ----------------------
+
+    - name: effectsizeOV
+      title: "Add ES"
+      type: Output
+      varTitle: New_ES
+      varDescription: Effect Size added with the module
+      measureType: continuous
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelmea
+        - subgroup
+
+    - name: stderrorOV
+      title: "Add SE"
+      type: Output
+      varTitle: New_SE
+      varDescription: Standard Error added with the module
+      measureType: continuous
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelmea
+        - subgroup
+
+    - name: varianceOV
+      title: "Add Variance"
+      type: Output
+      varTitle: New_VAR
+      varDescription: Variances added with the module
+      measureType: continuous
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - moderator
+        - modelmea
+        - subgroup
+
+    # Stato numerico indipendente da visualizzazione e ridimensionamento.
+    - name: predProbResults
+      type: Group
+      title: ''
+      visible: false
+      items: []
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - predProbThreshold
+        - predProbDirection
+
+    - name: predProbTable
+      title: Predictive probability
+      type: Table
+      rows: 1
+      visible: (predProbTableShow)
+      refs: [ metafor ]
+      columns:
+        - name: k
+          title: k
+          type: integer
+        - name: measure
+          title: Measure
+          type: text
+        - name: threshold
+          title: Threshold
+          type: number
+          format: zto
+        - name: direction
+          title: Direction
+          type: text
+        - name: probability
+          title: Probability (%)
+          type: number
+          format: zto
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - predProbThreshold
+        - predProbDirection
+
+    - name: mzPredProbPlot
+      title: Predictive probability
+      type: Image
+      renderFun: .mzPredProbPlot
+      visible: (predProbPlotShow)
+      width: 800
+      height: 550
+      refs: [ metafor ]
+      clearWith:
+        - slab
+        - n1i
+        - m1i
+        - sd1i
+        - n2i
+        - m2i
+        - sd2i
+        - subgroup
+        - moderator
+        - modelest
+        - modelmea
+        - testType
+        - level
+        - predProbThreshold
+        - predProbDirection
+
+
+    # Cache numerica con chiave esplicita yi/vi/fit: conserva il bootstrap ai cambi estetici.
