@@ -1,0 +1,100 @@
+name: Build Metafora macOS JMO
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/**'
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
+      - 'R/**'
+      - 'jamovi/**'
+      - 'inst/**'
+      - 'data/**'
+      - 'tests/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: macOS ${{ matrix.arch }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+            download_arch: arm64
+            dmg_sha256: 9ae094ddcb6baed83ed6f540b7a55be916ee347fb49da7cb731d0872b50154c3
+          - runner: macos-15-intel
+            arch: x86_64
+            download_arch: x64
+            dmg_sha256: ab1c826d63914fa02129eae7bf68f3399d19b4cde29f3b80a52465e2d1bb5949
+    runs-on: ${{ matrix.runner }}
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      JAMOVI_VERSION: 28.17.0.0
+      EXPECTED_ARCH: ${{ matrix.arch }}
+      SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          persist-credentials: false
+      - name: Prepare native dependencies
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "$EXPECTED_ARCH"
+          brew list gsl >/dev/null 2>&1 || brew install gsl
+          echo "$(brew --prefix gsl)/bin" >> "$GITHUB_PATH"
+          echo "PKG_CONFIG_PATH=$(brew --prefix gsl)/lib/pkgconfig" >> "$GITHUB_ENV"
+      - name: Download and verify jamovi
+        env:
+          DOWNLOAD_ARCH: ${{ matrix.download_arch }}
+          DMG_SHA256: ${{ matrix.dmg_sha256 }}
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --referer https://www.jamovi.org/download.html \
+            "https://www.jamovi.org/downloads/jamovi-${JAMOVI_VERSION}-macos-${DOWNLOAD_ARCH}.dmg" \
+            -o "$RUNNER_TEMP/jamovi.dmg"
+          printf '%s  %s\n' "$DMG_SHA256" "$RUNNER_TEMP/jamovi.dmg" | shasum -a 256 --check
+          hdiutil verify "$RUNNER_TEMP/jamovi.dmg"
+          mkdir -p "$RUNNER_TEMP/jamovi-mount"
+          hdiutil attach "$RUNNER_TEMP/jamovi.dmg" -readonly -nobrowse -mountpoint "$RUNNER_TEMP/jamovi-mount"
+          trap 'hdiutil detach "$RUNNER_TEMP/jamovi-mount"' EXIT
+          ditto "$RUNNER_TEMP/jamovi-mount/jamovi.app" /Applications/jamovi.app
+          RH=/Applications/jamovi.app/Contents/Frameworks/R.framework/Versions/Current/Resources
+          test -x "$RH/bin/Rscript"
+          lipo "$RH/bin/exec/R" -verify_arch "$EXPECTED_ARCH"
+          echo "JAMOVI_R_HOME=$RH" >> "$GITHUB_ENV"
+          mkdir results
+          sw_vers > results/environment.txt
+          uname -a >> results/environment.txt
+          file "$RH/bin/exec/R" >> results/environment.txt
+      - name: Compile and package with bundled R
+        env:
+          GITHUB_PAT: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          export R_HOME="$JAMOVI_R_HOME" RHOME="$JAMOVI_R_HOME"
+          "$R_HOME/bin/Rscript" --vanilla .github/scripts/macos/build.R "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/results" 2>&1 | tee results/build.log
+      - name: Verify package and native libraries
+        run: python3 .github/scripts/macos/verify.py "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/results" "$EXPECTED_ARCH"
+      - name: Check compiled models and UI
+        run: |
+          set -euo pipefail
+          export R_HOME="$JAMOVI_R_HOME" RHOME="$JAMOVI_R_HOME"
+          "$R_HOME/bin/Rscript" --vanilla .github/scripts/macos/check.R "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/results" 2>&1 | tee results/backend.log
+          for script in tests/ui/*.test.js; do node "$script"; done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Metafora-macos-${{ matrix.arch }}
+          path: results/
+          if-no-files-found: error
+          retention-days: 14
