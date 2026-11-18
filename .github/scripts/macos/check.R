@@ -5,7 +5,7 @@ libs<-list.dirs(file.path(root,'build'),recursive=FALSE,full.names=TRUE)
 libs<-libs[file.exists(file.path(libs,'Metafora/DESCRIPTION'))];stopifnot(length(libs)==1L)
 .libPaths(c(libs,file.path(app,'Resources/modules/base/R'),file.path(app,'Resources/modules/jmv/R'),.libPaths()))
 library(Metafora);library(testthat)
-stopifnot(as.character(packageVersion('Metafora'))=='2.0.0',as.character(packageVersion('metafor'))=='5.3.4')
+stopifnot(as.character(packageVersion('Metafora'))=='2.0.1',as.character(packageVersion('metafor'))=='5.3.4')
 setwd(root)
 res<-testthat::test_dir('tests/testthat',reporter='summary',stop_on_failure=FALSE,
     filter='six-model-native-statistics|model-inference|cache-results|hettest|predictive-probability|native-forest-lifecycle')

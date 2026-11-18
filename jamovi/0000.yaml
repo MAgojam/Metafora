@@ -1,14 +1,14 @@
 ---
 title: A Unified Synthesis Tool
 name: Metafora
-version: 2.0.0
+version: 2.0.1
 jms: '1.0'
 authors:
   - Maurizio Agosti
   - W. Kyle Hamilton
   - Jonathon Love
 maintainer: Maurizio Agosti <magosti@gmail.com>
-date: '2026-11-17'
+date: '2026-11-18'
 type: R
 description: >-
   This versatile module provides a streamlined interface for conducting
@@ -62,7 +62,7 @@ analyses:
     menuTitle: Generic Effect Sizes
     category: analyses
 usesNative: true
-minApp: 28.17.0
+minApp: 28.18.0
 datasets:
   - name: Example_Dichotomous
     path: Example_Dichotomous.omv

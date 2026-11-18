@@ -1,8 +1,8 @@
 Package: Metafora
 Type: Package
 Title: A Unified Synthesis Tool
-Version: 2.0.0
-Date: 2026-11-17
+Version: 2.0.1
+Date: 2026-11-18
 Authors@R: c(
     person("Maurizio", "Agosti", email = "magosti@gmail.com", role = c("aut", "cre")),
     person("Jonathon", "Love", role = "ctb")
