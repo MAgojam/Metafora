@@ -11,9 +11,11 @@
 > The musical score represents code: its rigor, precision, and the beauty of a universal language. Reading and understanding the work of others sparks new ideas—the light bulb—which find room on an empty staff to become new music, new code. **Mz** is the author's personal signature on this journey: understanding, creating, and sharing, rather than merely copying.
 
 
-**Metafora 2.0.0** is a meta-analysis module for **jamovi**, using the **metafor** R package. This version uses **metafor 5.3-4**. Its dependency source is pinned in DESCRIPTION for reproducible builds. The declared minimum jamovi version is **28.17.0**; this lower bound does not imply that an unmodified 28.17 desktop contains the upstream Svg fixes described below.
+**Metafora 2.0.1** is a meta-analysis module for **jamovi 28.18.0 or later**, using **metafor 5.3-4**. Its dependency source remains pinned in DESCRIPTION for reproducible builds.
 
-Development validation uses Windows jamovi 28.17 and the local portable 28.17.2 with core fixes. Automated tests cover all six models. The maintainer has visually accepted the updated development features and the latest Model-tab layout and Results ordering. Linux has already passed the previously recorded development checks; that acceptance is retained. The latest layout, Results-order and documentation refinements do not change the statistical algorithms or platform-specific Linux code. Producing an updated Linux JMO is a packaging step, not a withdrawal of the existing Linux acceptance. Platform-specific build and test details accompany the release assets; automated macOS backend checks do not replace desktop GUI acceptance.
+Version 2.0.1 is a compatibility update for the official jamovi 28.18 desktop. All six statistical models, cache behavior, controls and plotting methods are unchanged. Platform-specific JMO packages and build provenance are provided in [GitHub Releases](https://github.com/MAgojam/Metafora/releases/tag/v2.0.1). Version 2.0.0 remains available for the previous baseline.
+
+Automated tests cover all six models. Windows and Linux packages use official jamovi 28.18 runtimes; macOS Intel and Apple Silicon are compiled and checked independently in GitHub Actions. The maintainer's prior visual acceptance is retained. Automated package/backend checks do not imply a new desktop GUI acceptance or new export acceptance.
 
 Designed as a **unified synthesis tool**, it provides a streamlined and statistically rigorous interface for researchers to aggregate data across six core models: correlations, dichotomous outcomes, pre-calculated effect sizes, mean differences, proportions, and Cronbach’s alpha.
 
@@ -83,7 +85,9 @@ Version 2.0.0 replaces MAJOR without migrating saved MAJOR analyses. Datasets ca
 
 Interactive Forest plots use the native jamovi `Svg` result in all six models. The other interactive plot views retain their existing HTML implementation; Classic plots use native Image results.
 
-On unmodified jamovi 28.17, native Svg results can prevent saving an `.omv` document ([issue #1907](https://github.com/jamovi/jamovi/issues/1907)). The fix from [PR #1909](https://github.com/jamovi/jamovi/pull/1909) is merged in the upstream sources; an official desktop release containing it still needs to be verified. Windows development checks also use a local correction that preserves Svg figure proportions in DOCX/ODT exports. These local fixes are not part of a published Metafora package. The minimum official jamovi version for a public release will be set after the required fixes are available and verified. LaTeX export remains a separate upstream issue ([#1902](https://github.com/jamovi/jamovi/issues/1902)).
+On jamovi 28.17, native Svg results could prevent saving an `.omv` document ([issue #1907](https://github.com/jamovi/jamovi/issues/1907)). The fix from [PR #1909](https://github.com/jamovi/jamovi/pull/1909) is included in the official jamovi 28.18 runtime. The inclusive minimum for Metafora 2.0.1 is therefore **28.18.0**. The fix belongs to jamovi and is not duplicated in Metafora.
+
+The separate Office aspect-ratio correction from the private development portable is not present in official 28.18: figures without explicit dimensions can still use the upstream fallback proportions in DOCX/ODT. This release does not claim that separate limitation is fixed. LaTeX export remains a separate upstream issue ([#1902](https://github.com/jamovi/jamovi/issues/1902)).
 
 ## Example datasets
 
@@ -161,7 +165,7 @@ Classic and Interactive Funnel plots share metafor's statistical meaning: a pool
 
 ## Source repository and development status
 
-This 2.0.0 source project is maintained in `MAgojam/Metafora`, independently of the previous legacy project. Source availability does not mean that validated release packages exist for all four platforms. Platform packages and release acceptance will be documented separately.
+This project is maintained in `MAgojam/Metafora`, independently of the previous legacy project. The release provides separate packages for Windows x64, Linux x64, macOS Intel and macOS Apple Silicon, with build provenance and checksums. Desktop visual acceptance is recorded separately from automated verification.
 
 The Model tab places Heteroscedasticity test and Bootstrap samples before Heterogeneity comparison, Display model fit and Text reporting. Predictive probability is alongside it; its threshold field aligns with Bootstrap samples and its Direction title aligns with Display model fit. The Results sequence places the heteroscedasticity table after Subgroup Analysis and before Heterogeneity comparison and model fit.
 

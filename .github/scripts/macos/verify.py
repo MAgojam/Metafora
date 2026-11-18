@@ -9,8 +9,9 @@ commit = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], 
 assert commit == os.environ['SOURCE_COMMIT']
 with zipfile.ZipFile(artifact) as z, tempfile.TemporaryDirectory() as temporary:
     assert z.testzip() is None
+    assert re.search(r'minApp:\s*28\.18\.0', z.read('Metafora/jamovi.yaml').decode())
     description = z.read('Metafora/R/Metafora/DESCRIPTION').decode()
-    assert 'Version: 2.0.0' in description and 'Built: R 4.6.' in description
+    assert 'Version: 2.0.1' in description and 'Built: R 4.6.' in description
     assert 'Version: 5.3-4' in z.read('Metafora/R/metafor/DESCRIPTION').decode()
     for source in (root / 'inst').rglob('*'):
         if source.is_file():
@@ -32,7 +33,7 @@ with zipfile.ZipFile(artifact) as z, tempfile.TemporaryDirectory() as temporary:
         dependencies = subprocess.check_output(['otool', '-L', str(path)], text=True)
         assert not re.search(r'^\s+/(?:opt|usr/local|Library/Frameworks)/', dependencies, re.M), (name, dependencies)
         natives.append({'path': name, 'dependencies': dependencies})
-report = {'module':'Metafora','version':'2.0.0','sourceCommit':commit,'jamovi':'28.17.0.0',
+report = {'module':'Metafora','version':'2.0.1','sourceCommit':commit,'jamovi':'28.18.0.0',
           'architecture':arch,'file':artifact.name,'sha256':hashlib.sha256(artifact.read_bytes()).hexdigest(),
           'bytes':artifact.stat().st_size,'nativeLibraries':natives,'packageChecks':'PASSED','desktopGui':'Not tested'}
 (out / 'BUILD.json').write_text(json.dumps(report, indent=2) + '\n')

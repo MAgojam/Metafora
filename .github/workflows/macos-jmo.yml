@@ -27,15 +27,15 @@ jobs:
           - runner: macos-15
             arch: arm64
             download_arch: arm64
-            dmg_sha256: 9ae094ddcb6baed83ed6f540b7a55be916ee347fb49da7cb731d0872b50154c3
+            dmg_sha256: c529eb4517c7e67537bcb3f7bbdcf8495ab1ec8adf1849d2eb4094072a2174d6
           - runner: macos-15-intel
             arch: x86_64
             download_arch: x64
-            dmg_sha256: ab1c826d63914fa02129eae7bf68f3399d19b4cde29f3b80a52465e2d1bb5949
+            dmg_sha256: 7242a2effe65113fbe2e4e80ca6905b658d35f5c53d350f00dab1636e6011a73
     runs-on: ${{ matrix.runner }}
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      JAMOVI_VERSION: 28.17.0.0
+      JAMOVI_VERSION: 28.18.0.0
       EXPECTED_ARCH: ${{ matrix.arch }}
       SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
     defaults:
